@@ -26,6 +26,29 @@ export default function SignUpContainer() {
     setOtp(value);
   };
 
+  const [phoneNumber, setPhoneNumber] = useState<string>();
+
+  const handleRequestOtpButtonPress = async () => {
+    await fetch(
+      `${process.env.SERVER_ADDRESS}sendOtp?phoneNumber=${phoneNumber}&serverKey=${process.env.SERVER_KEY}`,
+      {
+        method: "GET",
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const validateUser = async () => {
+    await fetch(
+      `${process.env.SERVER_ADDRESS}validateOtp?phoneNumber=${phoneNumber}&otp=${otp}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   /**
    * useNavigation - hook that give access to navigation object and let you navigate
    * in the through the navigation stack.
@@ -41,9 +64,9 @@ export default function SignUpContainer() {
       {/* Basically an input Field to get phone number from the user with a request OTP button */}
       <PhoneInput
         onChange={(value) => {
-          console.log(value);
+          setPhoneNumber(value);
         }}
-        onRequestOtpButtonPress={() => {}}
+        onRequestOtpButtonPress={handleRequestOtpButtonPress}
         type="with-otp-button"
       />
 
@@ -57,7 +80,7 @@ export default function SignUpContainer() {
 
       <View className="w-1/2 mt-4">
         {/* Continue Button to submit OTP and register him in the Application */}
-        <XButton onPress={() => {}} title="Continue" type="dark" />
+        <XButton onPress={validateUser} title="Continue" type="dark" />
 
         {/* A button that takes user to the signIn page */}
         <XButton

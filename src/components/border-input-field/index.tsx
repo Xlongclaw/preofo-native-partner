@@ -1,5 +1,5 @@
 import { View, TextInput, InputModeOptions } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 export default function BorderInputField({
   placeholder,

@@ -7,6 +7,7 @@ import SignIn from "@screens/authentication/sign-in";
 import SignUp from "@screens/authentication/sign-up";
 import RegisterationScreen from "@screens/registeration-screen";
 import { RootStackParamList } from "types";
+import AppLoadingScreen from "@screens/app-loading-screen";
 
 /**
  * Calling the stack navigator in root stack from react-navigation
@@ -20,13 +21,15 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
  * @returns The root Navigation Container JSX
  */
 export default function Navigation() {
+
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="Registeration" screenOptions={RootStackNavigatorOptions}>
+      <RootStack.Navigator initialRouteName="AppLoadingScreen" screenOptions={RootStackNavigatorOptions}>
         <RootStack.Screen name="Home" component={Home} />
         <RootStack.Screen name="SignIn" component={SignIn} />
         <RootStack.Screen name="SignUp" component={SignUp} />
         <RootStack.Screen name="Registeration" component={RegisterationScreen} />
+        <RootStack.Screen name="AppLoadingScreen" component={AppLoadingScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

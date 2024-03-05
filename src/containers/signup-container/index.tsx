@@ -25,28 +25,31 @@ export default function SignUpContainer() {
    */
   const [phoneNumber, setPhoneNumber] = useState<string>("");
 
-  useEffect(()=>{
-    otp!=='' && ValidateOtp()
-  },[otp])
-
   const [ActivityIndicatorVisible, setActivityIndicatorVisible] =
     useState<boolean>(false);
+  useEffect(() => {
+    otp !== "" && ValidateOtp();
+  }, [otp]);
 
   const ValidateOtp = async () => {
     setActivityIndicatorVisible(true);
     const validation = await validateUser(phoneNumber, otp);
-    if(validation.code == "OTP_EXPIRED") Toast.show({
-      type: "error",
-      text1: "OTP expired. Try again !",
-      topOffset: 60,
-    });
-    else if(validation.code == "SUCCESS") navigation.navigate('Home')
-    else Toast.show({
-      type: "error",
-      text1: "Invalid OTP !",
-      topOffset: 60,
-    });
-    console.log(validation);  
+    if (validation.code == "OTP_EXPIRED")
+      Toast.show({
+        type: "error",
+        text1: "OTP expired. Try again !",
+        topOffset: 60,
+      });
+    else if (validation.code == "SUCCESS") {
+      console.log(validation);
+      navigation.navigate('Registeration',{userToken:validation.userToken})
+    } else
+      Toast.show({
+        type: "error",
+        text1: "Invalid OTP !",
+        topOffset: 60,
+      });
+    console.log(validation);
     setActivityIndicatorVisible(false);
   };
 
@@ -55,8 +58,7 @@ export default function SignUpContainer() {
    * @param value - changed value of the OTP
    */
   const onChange = (value: string) => {
-   setOtp(value);
-
+    setOtp(value);
   };
 
   const field0Ref = useRef<any>(null);
@@ -106,7 +108,9 @@ export default function SignUpContainer() {
           }}
           field0Ref={field0Ref}
         />
-        {ActivityIndicatorVisible && <ActivityIndicator size={32} className="mx-6" />}
+        {ActivityIndicatorVisible && (
+          <ActivityIndicator size={32} className="mx-6" />
+        )}
       </View>
 
       <View className="w-1/2 mt-4">

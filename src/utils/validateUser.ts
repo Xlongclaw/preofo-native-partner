@@ -12,7 +12,7 @@ const validateUser = async (phoneNumber:string,otp:string) => {
   const data = await fetch(
     `${process.env.SERVER_ADDRESS}validateOtp?phoneNumber=${phoneNumber}&otp=${otp}`
   )
-    return { code:(await data.json()).code,authToken:'XYFH78JL31JKHOP9016G'}
+    return data.json()
 };
 
 export default validateUser

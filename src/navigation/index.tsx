@@ -5,11 +5,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RootStackNavigatorOptions from "./options/RootStackNavigatorOptions";
 import SignIn from "@screens/authentication/sign-in";
 import SignUp from "@screens/authentication/sign-up";
+import RegisterationScreen from "@screens/registeration-screen";
+import { RootStackParamList } from "types";
 
 /**
  * Calling the stack navigator in root stack from react-navigation
  */
-const RootStack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 /**
  * This Component renders the Root Navigation Container Containing 
@@ -20,10 +22,11 @@ const RootStack = createNativeStackNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="SignUp" screenOptions={RootStackNavigatorOptions}>
+      <RootStack.Navigator initialRouteName="Registeration" screenOptions={RootStackNavigatorOptions}>
         <RootStack.Screen name="Home" component={Home} />
         <RootStack.Screen name="SignIn" component={SignIn} />
         <RootStack.Screen name="SignUp" component={SignUp} />
+        <RootStack.Screen name="Registeration" component={RegisterationScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

@@ -1,10 +1,12 @@
-import { View } from "react-native";
-import React, { useState } from "react";
+import { ActivityIndicator, ToastAndroid, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import PhoneInput from "../../components/phone-input";
 import BulletHeading from "../../components/bullet-heading";
 import XOtpField from "@components/x-otp-field";
 import XButton from "@components/x-button";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { sendOtp, validateUser } from "@utils";
+import Toast from "react-native-toast-message";
 
 /**
  * This Components renders Application Heading and an
@@ -16,37 +18,62 @@ export default function SignUpContainer() {
   /**
    * otp - state variable to store the OTP taken as input from the user.
    */
-  const [otp, setOtp] = useState<number>();
+  const [otp, setOtp] = useState<string>("");
+
+  /**
+   * otp - state variable to store the Phone Number taken as input from the user.
+   */
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+
+  useEffect(()=>{
+    otp!=='' && ValidateOtp()
+  },[otp])
+
+  const [ActivityIndicatorVisible, setActivityIndicatorVisible] =
+    useState<boolean>(false);
+
+  const ValidateOtp = async () => {
+    setActivityIndicatorVisible(true);
+    const validation = await validateUser(phoneNumber, otp);
+    if(validation.code == "OTP_EXPIRED") Toast.show({
+      type: "error",
+      text1: "OTP expired. Try again !",
+      topOffset: 60,
+    });
+    else if(validation.code == "SUCCESS") navigation.navigate('Home')
+    else Toast.show({
+      type: "error",
+      text1: "Invalid OTP !",
+      topOffset: 60,
+    });
+    console.log(validation);  
+    setActivityIndicatorVisible(false);
+  };
 
   /**
    * Function that handles any change in OTP Field.
    * @param value - changed value of the OTP
    */
-  const onChange = (value: number) => {
-    setOtp(value);
+  const onChange = (value: string) => {
+   setOtp(value);
+
   };
 
-  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const field0Ref = useRef<any>(null);
 
-  const handleRequestOtpButtonPress = async () => {
-    await fetch(
-      `${process.env.SERVER_ADDRESS}sendOtp?phoneNumber=${phoneNumber}&serverKey=${process.env.SERVER_KEY}`,
-      {
-        method: "GET",
-      }
-    ).catch((err) => {
-      console.log(err);
+  /**
+   * This function decides what happen when the Request Otp Button is pressed
+   * invovke a sentOtp function that sends an api request to the server for
+   * sending otp to the given Phone Number.
+   */
+  const handleRequestOtpButtonPress = () => {
+    sendOtp(phoneNumber);
+    Toast.show({
+      type: "success",
+      text1: "OTP sent Successfully",
+      topOffset: 60,
     });
-  };
-
-  const validateUser = async () => {
-    await fetch(
-      `${process.env.SERVER_ADDRESS}validateOtp?phoneNumber=${phoneNumber}&otp=${otp}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    field0Ref.current?.focus();
   };
 
   /**
@@ -70,17 +97,21 @@ export default function SignUpContainer() {
         type="with-otp-button"
       />
 
-      {/* An OTP field to ake OTP input from the User */}
-      <XOtpField
-        getOtp={(value) => {
-          onChange(value);
-          console.log(value);
-        }}
-      />
+      <View className="flex-row items-center">
+        {/* An OTP field to ake OTP input from the User */}
+        <XOtpField
+          getOtp={(value) => {
+            onChange(value);
+            console.log(value);
+          }}
+          field0Ref={field0Ref}
+        />
+        {ActivityIndicatorVisible && <ActivityIndicator size={32} className="mx-6" />}
+      </View>
 
       <View className="w-1/2 mt-4">
         {/* Continue Button to submit OTP and register him in the Application */}
-        <XButton onPress={validateUser} title="Continue" type="dark" />
+        <XButton onPress={ValidateOtp} title="Continue" type="dark" />
 
         {/* A button that takes user to the signIn page */}
         <XButton
@@ -89,6 +120,7 @@ export default function SignUpContainer() {
           type="transparent"
         />
       </View>
+      {/* <Toast title="OTP sent Successfully" type="success"/> */}
     </View>
   );
 }

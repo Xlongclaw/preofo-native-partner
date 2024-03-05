@@ -1,27 +1,39 @@
-import { TextInput, View } from "react-native";
-import React from "react";
+import { Text, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import XButton from "@components/x-button";
+import Timer from "@components/timer/Timer";
 
 export default function PhoneInput({
   type,
   onChange,
-  onRequestOtpButtonPress
+  onRequestOtpButtonPress,
 }: {
   type: "with-otp-button" | "without-otp-button";
   onChange: (value: string) => void;
-  onRequestOtpButtonPress?:()=>void
+  onRequestOtpButtonPress?: () => void;
 }) {
+  const [timerVisible, setTimerVisibile] = useState(false);
+
   return (
     <View className="flex-row border border-color3 px-4 py-5 my-4 rounded-2xl">
       <TextInput
-        className=" font-semibold flex-1 border-r border-color3"
+        className=" font-semibold text-base flex-1 border-r border-color3"
         placeholder="Enter Your Phone Number"
         inputMode="numeric"
-        onChangeText={(value)=>onChange(value)}
+        onChangeText={(value) => onChange(value)}
       />
-      {type == "with-otp-button" && (
-        <XButton type="transparent" title="Request OTP" onPress={() => onRequestOtpButtonPress!()} />
+      {!timerVisible && type == "with-otp-button" && (
+        <XButton
+          type="transparent"
+          title="Request OTP"
+          onPress={() => {
+            onRequestOtpButtonPress!();
+            setTimerVisibile(true)
+            setTimeout(()=>{setTimerVisibile(false)},30000)
+          }}
+        />
       )}
+      {type!=='without-otp-button' && timerVisible && <Text className="font-bold py-4 ml-3">Wait <Timer seconds={30}/> seconds</Text>}
     </View>
   );
 }

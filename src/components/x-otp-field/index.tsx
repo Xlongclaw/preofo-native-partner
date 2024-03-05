@@ -2,23 +2,23 @@
 import { View, Text, TextInput } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 
-export default function XOtpField({getOtp}:{getOtp:(value:number)=>void}) {
+export default function XOtpField({getOtp,field0Ref}:{getOtp:(value:string)=>void,field0Ref?:React.MutableRefObject<any>}) {
   const [otp, setOtp] = useState<[string, string, string, string]>([
     "",
     "",
     "",
     "",
   ]);
-  const field0Ref = useRef<any>(null);
+
   const field1Ref = useRef<any>(null);
   const field2Ref = useRef<any>(null);
   const field3Ref = useRef<any>(null);
-
   
 
   return (
     <View className="flex-row gap-2">
       <TextInput
+      ref={field0Ref}
         inputMode="numeric"
         maxLength={1}
         onChangeText={(value) => {
@@ -61,7 +61,7 @@ export default function XOtpField({getOtp}:{getOtp:(value:number)=>void}) {
            setOtp((x) => {
             return [x[0], x[1], x[2], value];
           });
-          otp[0] && otp[1] && otp[2] &&  value  && getOtp(Number([...otp,value].join('')))
+          otp[0] && otp[1] && otp[2] &&  value  && getOtp([...otp,value].join(''))
         }}
         className=" font-semibold border px-5 py-4 text-center rounded-xl border-color3"
       />

@@ -1,5 +1,5 @@
 import Navigation from "navigation";
-import Toast, { BaseToast } from "react-native-toast-message";
+import Toast from "react-native-toast-message";
 
 /**
  * The Root of this expo application.

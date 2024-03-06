@@ -1,37 +1,60 @@
-import { ActivityIndicator, ToastAndroid, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import PhoneInput from "../../components/phone-input";
-import BulletHeading from "../../components/bullet-heading";
+import { ActivityIndicator, View } from "react-native";
+import React from "react";
+import Toast from "react-native-toast-message";
+
+import PhoneInput from "@components/phone-input";
+import BulletHeading from "@components/bullet-heading";
 import XOtpField from "@components/x-otp-field";
 import XButton from "@components/x-button";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { sendOtp, validateUser } from "@utils";
-import Toast from "react-native-toast-message";
 
 /**
  * This Components renders Application Heading and an
  * input form to get user Phone Number to register him into the application.
  *
- * @returns a jsx element of sign up form.
+ * @returns a JSX component of sign up form.
  */
 export default function SignUpContainer() {
+
   /**
    * otp - state variable to store the OTP taken as input from the user.
    */
-  const [otp, setOtp] = useState<string>("");
+  const [otp, setOtp] = React.useState<string>("");
 
   /**
-   * otp - state variable to store the Phone Number taken as input from the user.
+   * phoneNumber - state variable to store the Phone Number taken as input from the user.
+   * 
+   * Its value change as the user enters something in the phoneInput Field
    */
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = React.useState<string>("");
 
-  const [ActivityIndicatorVisible, setActivityIndicatorVisible] =
-    useState<boolean>(false);
-  useEffect(() => {
+  /**
+   * ActivityIndicaterVisible - state variable to set activityIndicator visible after 
+   * the submission of otp.
+   * 
+   * It is set to true just before OTP is sent for validation
+   * and set to false again after the validation is completed or rejected.
+   */
+  const [ActivityIndicatorVisible, setActivityIndicatorVisible] = React.useState(false);
+
+  /**
+   * 
+   */
+  React.useEffect(() => {
     otp !== "" && ValidateOtp();
   }, [otp]);
 
+  /**
+   * A function that checks whether the otp is correct.
+   * If user is Authenticated then the function redirects user to the 
+   * registeration page for user data collection.
+   */
   const ValidateOtp = async () => {
+
+    /**
+     * displays loading while the OTP Validates.
+     */
     setActivityIndicatorVisible(true);
     const validation = await validateUser(phoneNumber, otp);
     if (validation.code == "OTP_EXPIRED")
@@ -41,7 +64,7 @@ export default function SignUpContainer() {
         topOffset: 60,
       });
     else if (validation.code == "SUCCESS") {
-      navigation.navigate('Registeration',{userToken:validation.userToken})
+      navigation.navigate("Registeration", { userToken: validation.userToken });
     } else
       Toast.show({
         type: "error",
@@ -59,7 +82,10 @@ export default function SignUpContainer() {
     setOtp(value);
   };
 
-  const field0Ref = useRef<any>(null);
+  /**
+   * Reference of the Otp Input.
+   */
+  const otpFieldRef = React.useRef<any>(null);
 
   /**
    * This function decides what happen when the Request Otp Button is pressed
@@ -73,7 +99,7 @@ export default function SignUpContainer() {
       text1: "OTP sent Successfully",
       topOffset: 60,
     });
-    field0Ref.current?.focus();
+    otpFieldRef.current?.focus();
   };
 
   /**
@@ -103,7 +129,7 @@ export default function SignUpContainer() {
           getOtp={(value) => {
             onChange(value);
           }}
-          field0Ref={field0Ref}
+          field0Ref={otpFieldRef}
         />
         {ActivityIndicatorVisible && (
           <ActivityIndicator size={32} className="mx-6" />
@@ -121,7 +147,6 @@ export default function SignUpContainer() {
           type="transparent"
         />
       </View>
-      {/* <Toast title="OTP sent Successfully" type="success"/> */}
     </View>
   );
 }

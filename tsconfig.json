@@ -9,6 +9,7 @@
       "@utils": ["utils/index"],
       "@images/*": ["images/*"],
       "@containers/*": ["containers/*"],
+      "@types": ["types/index"],
     }
   }
 }

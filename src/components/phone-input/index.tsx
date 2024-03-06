@@ -17,7 +17,7 @@ export default function PhoneInput({
   return (
     <View className="flex-row border border-color3 px-4 py-5 my-4 rounded-2xl">
       <TextInput
-        className=" font-semibold text-base flex-1 border-r border-color3"
+        className=" font-semibold text-sm flex-1 border-r border-color3"
         placeholder="Enter Your Phone Number"
         inputMode="numeric"
         onChangeText={(value) => onChange(value)}
@@ -31,6 +31,7 @@ export default function PhoneInput({
             setTimerVisibile(true)
             setTimeout(()=>{setTimerVisibile(false)},30000)
           }}
+          width="two-fifth"
         />
       )}
       {type!=='without-otp-button' && timerVisible && <Text className="font-bold py-4 ml-3">Wait <Timer seconds={30}/> seconds</Text>}

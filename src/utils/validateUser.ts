@@ -7,7 +7,6 @@
  * @param otp - contains the otp entered bu the user
  */
 const validateUser = async (phoneNumber:string,otp:string) => {
-  console.log(otp);
   
   const data = await fetch(
     `${process.env.SERVER_ADDRESS}validateOtp?phoneNumber=${phoneNumber}&otp=${otp}`

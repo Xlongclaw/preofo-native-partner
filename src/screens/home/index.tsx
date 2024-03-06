@@ -1,29 +1,34 @@
 import { View, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import XStatusBar from "@components/x-status-bar";
-import * as SecureStore from "expo-secure-store";
+import retrieveSecureStoreData from "utils/retrieveSecureStoreData";
+import fetchUserData from "utils/fetchUserData";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "types";
+type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
-export default function Home() {
-  const [token,setToken] = useState("jskjsk")
-  useEffect(() => {
-    async function getValueFor(key: string) {
-      let result = await SecureStore.getItemAsync(key);
-      if (result) {
-        return result;
-        // alert("🔐 Here's your value 🔐 \n" + result);
-      } else {
-        return "SOSO";
-        // alert('No values stored under that key.');
+
+export default function Home({navigation,route}:Props) {
+  const [userData,setUserData] = useState<any>()
+
+  React.useEffect(() => {
+    retrieveSecureStoreData("userToken").then((token) => {
+      if(token){
+        fetchUserData(token!).then((res) => {
+          setUserData(res.data)
+        })
       }
-    }
-    getValueFor("userToken").then((data)=>console.log(data)
-    )
+    });
   }, []);
 
+  React.useEffect(()=>{
+    // console.log(userData);  
+  },[userData])
+if(userData!== undefined)
   return (
     <View>
       <XStatusBar />
-      <Text>{token}</Text>
+      <Text>{userData.name}r</Text>
     </View>
   );
 }

@@ -41,7 +41,6 @@ export default function SignUpContainer() {
         topOffset: 60,
       });
     else if (validation.code == "SUCCESS") {
-      console.log(validation);
       navigation.navigate('Registeration',{userToken:validation.userToken})
     } else
       Toast.show({
@@ -49,7 +48,6 @@ export default function SignUpContainer() {
         text1: "Invalid OTP !",
         topOffset: 60,
       });
-    console.log(validation);
     setActivityIndicatorVisible(false);
   };
 
@@ -104,7 +102,6 @@ export default function SignUpContainer() {
         <XOtpField
           getOtp={(value) => {
             onChange(value);
-            console.log(value);
           }}
           field0Ref={field0Ref}
         />

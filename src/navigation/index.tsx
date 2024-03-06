@@ -24,7 +24,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="SignUp" screenOptions={RootStackNavigatorOptions}>
+      <RootStack.Navigator initialRouteName="AppLoadingScreen" screenOptions={RootStackNavigatorOptions}>
         <RootStack.Screen name="Home" component={Home} />
         <RootStack.Screen name="SignIn" component={SignIn} />
         <RootStack.Screen name="SignUp" component={SignUp} />

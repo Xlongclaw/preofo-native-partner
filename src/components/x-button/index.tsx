@@ -7,17 +7,19 @@ export default function XButton({
   onPress,
   type="transparent",
   width='full',
+  marginY='none'
 }: {
   title: string;
   onPress: () => void;
   type?: "transparent" | "dark";
   width?: "half" | "full" | "one-third" | 'two-fifth';
+  marginY?:'sm'|'md'|'lg'|'none'
 }) {
   return (
     <TouchableOpacity
       onPress={onPress}
       className={classnames(
-        "justify-center items-center px-4 rounded-3xl py-4",
+        "justify-center items-center px-4 rounded-3xl ",
         {
           /**
            * Different button widths
@@ -29,8 +31,16 @@ export default function XButton({
           /**
            * Different button types
            */
-          "bg-color2": type === "dark",
+          "bg-color2 py-4": type === "dark",
           "bg-transparent": type === "transparent",
+          /**
+           * Margin Y
+           */
+          "my-2": marginY === "sm",
+          "my-4": marginY === "md",
+          "my-6": marginY === "lg",
+          "my-0": marginY === "none",
+
         }
       )}
     >

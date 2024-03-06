@@ -6,7 +6,6 @@ import retrieveSecureStoreData from "utils/retrieveSecureStoreData";
 import fetchUserData from "utils/fetchUserData";
 type Props = NativeStackScreenProps<RootStackParamList, "AppLoadingScreen">;
 
-
 export default function AppLoadingScreen({ navigation, route }: Props) {
   /**
    * userToken - state variable to store user Authentication token.
@@ -18,13 +17,14 @@ export default function AppLoadingScreen({ navigation, route }: Props) {
    */
   React.useEffect(() => {
     retrieveSecureStoreData("userToken").then((userToken) => {
+      if (!userToken) navigation.navigate("SignUp");
       setUserToken(userToken);
     });
   }, []);
 
   /**
    * Cheking if the token is valid and the user exists.
-   * 
+   *
    * if user exists - redirecting him to home screen.
    * if user does not exist - redirecting him to signUp screen
    */

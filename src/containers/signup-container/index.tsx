@@ -16,7 +16,6 @@ import { sendOtp, validateUser } from "@utils";
  * @returns a JSX component of sign up form.
  */
 export default function SignUpContainer() {
-
   /**
    * otp - state variable to store the OTP taken as input from the user.
    */
@@ -24,22 +23,23 @@ export default function SignUpContainer() {
 
   /**
    * phoneNumber - state variable to store the Phone Number taken as input from the user.
-   * 
+   *
    * Its value change as the user enters something in the phoneInput Field
    */
   const [phoneNumber, setPhoneNumber] = React.useState<string>("");
 
   /**
-   * ActivityIndicaterVisible - state variable to set activityIndicator visible after 
+   * ActivityIndicaterVisible - state variable to set activityIndicator visible after
    * the submission of otp.
-   * 
+   *
    * It is set to true just before OTP is sent for validation
    * and set to false again after the validation is completed or rejected.
    */
-  const [ActivityIndicatorVisible, setActivityIndicatorVisible] = React.useState(false);
+  const [ActivityIndicatorVisible, setActivityIndicatorVisible] =
+    React.useState(false);
 
   /**
-   * 
+   *
    */
   React.useEffect(() => {
     otp !== "" && ValidateOtp();
@@ -47,11 +47,10 @@ export default function SignUpContainer() {
 
   /**
    * A function that checks whether the otp is correct.
-   * If user is Authenticated then the function redirects user to the 
+   * If user is Authenticated then the function redirects user to the
    * registeration page for user data collection.
    */
   const ValidateOtp = async () => {
-
     /**
      * displays loading while the OTP Validates.
      */
@@ -93,13 +92,21 @@ export default function SignUpContainer() {
    * sending otp to the given Phone Number.
    */
   const handleRequestOtpButtonPress = () => {
-    sendOtp(phoneNumber);
-    Toast.show({
-      type: "success",
-      text1: "OTP sent Successfully",
-      topOffset: 60,
-    });
-    otpFieldRef.current?.focus();
+    if (phoneNumber.length === 10) {
+      sendOtp(phoneNumber);
+      Toast.show({
+        type: "success",
+        text1: "OTP sent Successfully",
+        topOffset: 60,
+      });
+      otpFieldRef.current?.focus();
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Enter a valid Phone Number.",
+        topOffset: 60,
+      });
+    }
   };
 
   /**
@@ -145,6 +152,7 @@ export default function SignUpContainer() {
           onPress={() => navigation.navigate("SignIn")}
           title="Existing User ? Login"
           type="transparent"
+          marginY="md"
         />
       </View>
     </View>

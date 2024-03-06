@@ -1,34 +1,31 @@
-import { View, Text } from "react-native";
-import React, { useState } from "react";
+import { View, Text, Pressable } from "react-native";
+import React from "react";
 import XStatusBar from "@components/x-status-bar";
-import retrieveSecureStoreData from "utils/retrieveSecureStoreData";
-import fetchUserData from "utils/fetchUserData";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "types";
+import useUserData from "hooks/useUserData";
+import XButton from "@components/x-button";
+import deleteSecureStoreData from "utils/deleteSecureStoreData";
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
+export default function Home({ navigation, route }: Props) {
+  const { userData, isLoading } = useUserData();
 
-export default function Home({navigation,route}:Props) {
-  const [userData,setUserData] = useState<any>()
-
-  React.useEffect(() => {
-    retrieveSecureStoreData("userToken").then((token) => {
-      if(token){
-        fetchUserData(token!).then((res) => {
-          setUserData(res.data)
-        })
-      }
-    });
-  }, []);
-
-  React.useEffect(()=>{
-    // console.log(userData);  
-  },[userData])
-if(userData!== undefined)
-  return (
-    <View>
-      <XStatusBar />
-      <Text>{userData.name}r</Text>
-    </View>
-  );
+  if (!isLoading)
+    return (
+      <View>
+        <XStatusBar />
+        <Text>{userData.name} Hello</Text>
+        <XButton
+          onPress={async () => {
+            deleteSecureStoreData("userToken");
+            navigation.reset({routes:[{name:'AppLoadingScreen'}]});
+          }}
+          title="Log Out"
+          type="dark"
+          width="half"
+        />
+      </View>
+    );
+  return <Text>LOADING DATA</Text>;
 }

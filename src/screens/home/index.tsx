@@ -11,10 +11,11 @@ import FoodItemContainer from "@containers/food-item-container";
 import RestaurantButtonContainer from "@containers/restaurant-button-container";
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
-
-
 export default function Home({ navigation, route }: Props) {
   const { userData, isLoading } = useUserData();
+  const [selected, setSelected] = React.useState<"ORDERS" | "RESTAURANT">(
+    "ORDERS"
+  );
 
   if (!isLoading)
     return (
@@ -23,22 +24,21 @@ export default function Home({ navigation, route }: Props) {
         <View className="flex-row items-center justify-between px-4">
           <Logo />
           <View>
-            <XSwitch/>
+            <XSwitch
+              selected={(value) => {
+                setSelected(value);
+              }}
+            />
           </View>
         </View>
-        {/* <OrderContainer/> */}
-        <RestaurantButtonContainer/>
-        <FoodItemContainer/>
-
-        {/* <XButton
-          onPress={async () => {
-            deleteSecureStoreData("userToken");
-            navigation.reset({routes:[{name:'AppLoadingScreen'}]});
-          }}
-          title="Log Out"
-          type="dark"
-          width="half"
-        /> */}
+        {selected === "ORDERS" ? (
+          <OrderContainer />
+        ) : (
+          <>
+            <RestaurantButtonContainer />
+            <FoodItemContainer />
+          </>
+        )}
       </View>
     );
   return <Text>LOADING DATA</Text>;

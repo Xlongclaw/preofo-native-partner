@@ -9,10 +9,12 @@ export default function XButton({
   width = "full",
   marginY = "none",
   rounded = "full",
-  textSize = "md",
+  textSize = "xs",
+  children
 }: {
   title: string;
   onPress: () => void;
+  children?:React.JSX.Element
   type?: "transparent" | "dark";
   width?: "half" | "full" | "one-third" | "two-fifth";
   marginY?: "sm" | "md" | "lg" | "none";
@@ -66,7 +68,7 @@ export default function XButton({
           "text-lg": textSize === "md",
         })}
       >
-        {title}
+        {children}{title}
       </Text>
     </TouchableOpacity>
   );

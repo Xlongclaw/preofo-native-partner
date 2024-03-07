@@ -5,9 +5,9 @@ import PendingOrderWrapper from "./pending-order-wrapper";
 
 export default function OrderContainer() {
   return (
-    <View>
+    <View className="h-full overflow-hidden">
       <OrderNavigator />
-      <ScrollView className="border border-color3/50 mt-2 p-2 mx-2 rounded-3xl h-[60vh]">
+      <ScrollView showsVerticalScrollIndicator={false} className="border border-color3/50 mt-2 p-2 mx-2 flex- overflow-hidden">
         <PendingOrderWrapper/>
         <PendingOrderWrapper/>
         <PendingOrderWrapper/>    

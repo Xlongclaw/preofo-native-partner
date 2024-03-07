@@ -1,13 +1,12 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import React from "react";
 import XStatusBar from "@components/x-status-bar";
-import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "types";
 import useUserData from "hooks/useUserData";
-import XButton from "@components/x-button";
-import deleteSecureStoreData from "utils/deleteSecureStoreData";
 import Logo from "@components/logo";
 import OrderContainer from "@containers/order-container";
+import XSwitch from "@components/x-switch";
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 
@@ -17,16 +16,15 @@ export default function Home({ navigation, route }: Props) {
 
   if (!isLoading)
     return (
-      <View className="px-4 pt-4">
+      <View className="px-4 pt-4 h-[89vh]">
         <XStatusBar />
         <View className="flex-row items-center justify-between px-4">
           <Logo />
           <View>
-            <Text className="font-semibold text-color2">Cafe Rogue</Text>
+            <XSwitch/>
           </View>
         </View>
         <OrderContainer/>
-
 
         {/* <XButton
           onPress={async () => {

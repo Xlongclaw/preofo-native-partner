@@ -4,9 +4,9 @@ import React from "react";
 export default function Logo() {
   return (
     <View>
-      <Text className="text-[22px] font-extrabold text-color2">Preofo</Text>
-      <Text className="text-[11px] font-black text-color2/50 tracking-[1px] -mt-1">
-        PARTNER
+      <Text className="font-black text-lg text-color2">Cafe Rogue</Text>
+      <Text className="text-[9px] font-black text-color2/50 tracking-[1px] -mt-[1px]">
+        PREOFO
       </Text>
     </View>
   );

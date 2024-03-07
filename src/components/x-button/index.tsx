@@ -2,6 +2,24 @@ import { Text, TouchableOpacity } from "react-native";
 import React from "react";
 import classnames from "classnames";
 
+/**
+ * Prop Type of this React Component.
+ */
+type PropType = {
+  title: string;
+  onPress: () => void;
+  children?: React.JSX.Element;
+  type?: "transparent" | "dark";
+  width?: "half" | "full" | "one-third" | "two-fifth";
+  marginY?: "sm" | "md" | "lg" | "none";
+  rounded?: "sm" | "md" | "lg" | "xl" | "full" | "none";
+  textSize?: "xs" | "sm" | "md";
+};
+
+/**
+ * This is a Custom Button Component.
+ * @returns a JSX Element button.
+ */
 export default function XButton({
   title,
   onPress,
@@ -10,17 +28,8 @@ export default function XButton({
   marginY = "none",
   rounded = "full",
   textSize = "xs",
-  children
-}: {
-  title: string;
-  onPress: () => void;
-  children?:React.JSX.Element
-  type?: "transparent" | "dark";
-  width?: "half" | "full" | "one-third" | "two-fifth";
-  marginY?: "sm" | "md" | "lg" | "none";
-  rounded?: "sm" | "md" | "lg" | "xl" | "full" | "none";
-  textSize?: "xs" | "sm" | "md";
-}) {
+  children,
+}: PropType) {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -68,7 +77,8 @@ export default function XButton({
           "text-lg": textSize === "md",
         })}
       >
-        {children}{title}
+        {children}
+        {title}
       </Text>
     </TouchableOpacity>
   );

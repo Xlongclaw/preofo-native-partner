@@ -1,4 +1,4 @@
-import { View, Text, Animated, TouchableOpacity, Easing } from "react-native";
+import { Animated, TouchableOpacity, Easing } from "react-native";
 import React from "react";
 
 export default function XSwitch({selected}:{selected:(selected:"ORDERS" | "RESTAURANT")=>void}) {

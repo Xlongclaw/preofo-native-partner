@@ -7,6 +7,8 @@ import useUserData from "hooks/useUserData";
 import Logo from "@components/logo";
 import OrderContainer from "@containers/order-container";
 import XSwitch from "@components/x-switch";
+import FoodItemContainer from "@containers/food-item-container";
+import RestaurantButtonContainer from "@containers/restaurant-button-container";
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 
@@ -16,7 +18,7 @@ export default function Home({ navigation, route }: Props) {
 
   if (!isLoading)
     return (
-      <View className="px-4 pt-4 h-[89vh]">
+      <View className="px-4 pt-4 h-[100vh]">
         <XStatusBar />
         <View className="flex-row items-center justify-between px-4">
           <Logo />
@@ -24,7 +26,9 @@ export default function Home({ navigation, route }: Props) {
             <XSwitch/>
           </View>
         </View>
-        <OrderContainer/>
+        {/* <OrderContainer/> */}
+        <RestaurantButtonContainer/>
+        <FoodItemContainer/>
 
         {/* <XButton
           onPress={async () => {

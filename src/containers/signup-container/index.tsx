@@ -91,15 +91,34 @@ export default function SignUpContainer() {
    * invovke a sentOtp function that sends an api request to the server for
    * sending otp to the given Phone Number.
    */
-  const handleRequestOtpButtonPress = () => {
+  const handleRequestOtpButtonPress = async () => {
     if (phoneNumber.length === 10) {
-      sendOtp(phoneNumber);
-      Toast.show({
-        type: "success",
-        text1: "OTP sent Successfully",
-        topOffset: 60,
-      });
-      otpFieldRef.current?.focus();
+      await sendOtp(phoneNumber).then((result)=>{
+        console.log(result);
+        
+        if(result === 'SUCCESS'){
+          Toast.show({
+            type: "success",
+            text1: "OTP sent Successfully",
+            topOffset: 60,
+          });
+          otpFieldRef.current?.focus();
+        }
+        else if(result === 'USER_EXISTS'){
+          Toast.show({
+            type: "error",
+            text1: "User already exists",
+            topOffset: 60,
+          });
+        }
+        else{
+          Toast.show({
+            type: "error",
+            text1: "Something Went Wrong",
+            topOffset: 60,
+          });
+        }
+      })
     } else {
       Toast.show({
         type: "error",

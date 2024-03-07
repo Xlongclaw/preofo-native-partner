@@ -40,7 +40,7 @@ export default function SignInContainer() {
     setActivityIndicatorVisible(true);
     if (phoneNumber.length === 10) {
       fetch(
-        `${process.env.SERVER_ADDRESS}getUserFromCredentials?phoneNumber=${phoneNumber}&password=${password}`
+        `${process.env.SERVER_ADDRESS}getPartnerFromCredentials?phoneNumber=${phoneNumber}&password=${password}`
       )
         .then((res) => res.json())
         .then(async (data) => {

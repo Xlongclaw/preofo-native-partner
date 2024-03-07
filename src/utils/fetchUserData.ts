@@ -1,7 +1,7 @@
 const fetchUserData = async (userToken: string) => {
   try {
     const data = await fetch(
-      `${process.env.SERVER_ADDRESS}getUserFromUserToken?userToken=${userToken}`,
+      `${process.env.SERVER_ADDRESS}getPartnerFromUserToken?userToken=${userToken}`,
       {
         method: "GET",
       }

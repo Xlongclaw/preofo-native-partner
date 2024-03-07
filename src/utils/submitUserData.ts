@@ -15,7 +15,7 @@ const submitUserData = async ({
   userToken,
 }: submitDataPropType) => {
   if (passwordValidation(password, confirmPassword)) {
-    const res = await fetch(`${process.env.SERVER_ADDRESS}addUser`, {
+    const res = await fetch(`${process.env.SERVER_ADDRESS}addPartner`, {
       method: "POST",
       body: JSON.stringify({
         name,

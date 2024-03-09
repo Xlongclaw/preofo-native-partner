@@ -1,3 +1,4 @@
+import SERVER_ENDPOINTS from "constants/SERVER_ENDPOINTS";
 import { useEffect, useState } from "react";
 import retrieveSecureStoreData from "utils/retrieveSecureStoreData";
 
@@ -17,7 +18,7 @@ const useUserData = () => {
   useEffect(() => {
     if (userToken)
       fetch(
-        `${process.env.SERVER_ADDRESS}getUserFromUserToken?userToken=${userToken}`,
+        `${process.env.SERVER_ADDRESS}/${SERVER_ENDPOINTS.GET_PARTNER_FROM_TOKEN_GET}?userToken=${userToken}`,
         {
           method: "GET",
           headers: {

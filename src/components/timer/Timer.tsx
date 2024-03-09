@@ -27,7 +27,6 @@ export default function Timer({ seconds }: PropType) {
       const intervalId = setInterval(() => {
         setTimerValue((x) => x - 1);
       }, 1000);
-      return clearInterval(intervalId);
     }
   }, []);
   return <Text>{timerValue}</Text>;

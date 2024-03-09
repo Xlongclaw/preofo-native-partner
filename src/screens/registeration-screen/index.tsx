@@ -37,9 +37,7 @@ export default function RegisterationScreen({
           So, What are you doing for your Craving
         </Text>
       </View>
-      <RegisterationScreenForm userToken={""
-      //route.params.userToken
-    } />
+      <RegisterationScreenForm userToken={route.params.userToken} />
     </View>
   );
 }

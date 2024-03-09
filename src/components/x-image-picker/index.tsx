@@ -1,15 +1,21 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-
+import generateCloudinaryImageUrl from "utils/generateCloudinaryImageUrl";
 
 /**
- * This component lets user to add or pick image from their own 
+ * This component lets user to add or pick image from their own
  * storage, allowing the code to get access to the images.
- * 
+ *
  * @returns a JSX Element that prompts the user to add a group of images.
  */
-export default function XImagePicker({getImage}:{getImage:(imagesArray:Array<string>)=>void}) {
+export default function XImagePicker({
+  getImage,
+}: {
+  getImage: (
+    imagesArray: Array<string>
+  ) => void;
+}) {
   const [images, setImages] = React.useState<Array<string>>([]);
 
   /**
@@ -17,7 +23,6 @@ export default function XImagePicker({getImage}:{getImage:(imagesArray:Array<str
    * images array.
    */
   const launchImagePicker = async () => {
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -25,7 +30,7 @@ export default function XImagePicker({getImage}:{getImage:(imagesArray:Array<str
       quality: 1,
     });
     if (!result.canceled) {
-      setImages([...images, result.assets![0].uri]);
+        setImages([...images, result.assets![0].uri]);
     }
   };
 
@@ -39,18 +44,20 @@ export default function XImagePicker({getImage}:{getImage:(imagesArray:Array<str
     setImages(images.filter((_, index) => index !== i));
   };
 
-  React.useEffect(()=>{
-    getImage(images)
-  },[images])
+  React.useEffect(() => {
+    getImage(images);
+  }, [images]);
 
-  
   return (
     <View className="my-6">
       <Text className="font-semibold text-center text-color2/70 mb-2">
         Add Restaurant Images
       </Text>
       {images.map((imageUrl, i) => (
-        <View className="border border-color3 mb-2 p-1 rounded-3xl overflow-hidden">
+        <View
+          key={imageUrl}
+          className="border border-color3 mb-2 p-1 rounded-3xl overflow-hidden"
+        >
           <TouchableOpacity
             onPress={() => removeImage(i)}
             activeOpacity={0.7}
@@ -58,11 +65,7 @@ export default function XImagePicker({getImage}:{getImage:(imagesArray:Array<str
           >
             <Text className="font-black text-color2/50 text-xs">X</Text>
           </TouchableOpacity>
-          <Image
-            className="w-full h-40 rounded-[20px]"
-            key={imageUrl}
-            src={imageUrl}
-          />
+          <Image className="w-full h-40 rounded-[20px]" src={imageUrl} />
         </View>
       ))}
       <TouchableOpacity

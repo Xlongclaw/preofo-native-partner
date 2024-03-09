@@ -1,3 +1,4 @@
+import SERVER_ENDPOINTS from "constants/SERVER_ENDPOINTS";
 
 /**
  * This functions sends an AJAX call to the server to check whether 
@@ -9,7 +10,7 @@
 const validateUser = async (phoneNumber:string,otp:string) => {
   
   const data = await fetch(
-    `${process.env.SERVER_ADDRESS}validateOtp?phoneNumber=${phoneNumber}&otp=${otp}`
+    `${process.env.SERVER_TEST_ADDRESS}/${SERVER_ENDPOINTS.VALIDATE_OTP_GET}?phoneNumber=${phoneNumber}&otp=${otp}&clientType=PARTNER`
   )
     return data.json()
 };

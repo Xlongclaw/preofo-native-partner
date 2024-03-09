@@ -41,4 +41,15 @@ type restaurantDataType = {
   foodCategories:Array<{category:string,dishes:Array<DishType>}>
 };
 
-export {RootStackParamList,DishType,foodItemDataType,restaurantDataType}
+type restaurant2DataType = {
+  name: string;
+  address:string
+  description:string
+  minPrepTime: number;
+  maxPrepTime: number;
+  foodTags: Array<string>;
+  restaurantTags: Array<string>;
+  images: Array<{publicId:string,signature:string,url:string}>;
+};
+
+export {RootStackParamList,DishType,foodItemDataType,restaurantDataType,restaurant2DataType}

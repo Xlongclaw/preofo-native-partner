@@ -12,6 +12,13 @@ import XImagePicker from "@components/x-image-picker";
 import XTagSelector from "@components/x-tags-selector";
 import RESTAURANT_TAGS from "constants/RESTAURANT_TAGS";
 import FOOD_TAGS from "constants/FOOD_TAGS";
+import {
+  AdvancedImage,
+  UploadApiOptions,
+  upload,
+} from "cloudinary-react-native";
+import { Cloudinary } from "@cloudinary/url-gen";
+import generateCloudinaryImageUrl from "utils/generateCloudinaryImageUrl";
 
 /**
  * This component provide a form with three input fields name, password
@@ -33,14 +40,33 @@ export default function RegisterationScreenForm({
   const [password, setPassword] = React.useState<string>("");
   const [confirmPassword, setConfirmPassword] = React.useState<string>("");
 
+  const [imageArray, setImagesArray] = React.useState<Array<string>>([]);
+
+  const [restaurantName, setRestaurantName] = React.useState<string>("");
+  const [restaurantAddress, setRestaurantAddress] = React.useState<string>("");
+  const [restaurantDescription, setRestaurantDescription] =
+    React.useState<string>("");
+  const [minPrepTime, setMinPrepTime] = React.useState<number>(30);
+  const [maxPrepTime, setMaxPrepTime] = React.useState<number>(60);
+  const [foodTags, setFoodTags] = React.useState<Array<string>>([]);
+  const [restaurantTags, setRestaurantTags] = React.useState<Array<string>>([]);
+
   /**
    * useNavigation - hook that give access to navigation object and let you navigate
    * in the through the navigation stack.
    */
-  const navigation:NavigationProp<any> = useNavigation();
-
+  const navigation: NavigationProp<any> = useNavigation();
+  // console.log(userToken);
+  
   const handleFormData = async () => {
 
+
+
+     const restaurantImages =await Promise.all(imageArray.map( (imageURI) => {
+       return generateCloudinaryImageUrl(imageURI)
+    }))
+    
+    
     /**
      * Different codes:
      *
@@ -56,11 +82,20 @@ export default function RegisterationScreenForm({
       confirmPassword,
       password,
       userToken,
-    });
+      restaurantData: {
+        address: restaurantAddress,
+        description: restaurantDescription,
+        foodTags: foodTags,
+        images: restaurantImages,
+        maxPrepTime: maxPrepTime,
+        minPrepTime: minPrepTime,
+        name: restaurantName,
+        restaurantTags,
+      },
+    }).catch((err) => console.log(err));
 
-    switch(code) {
+    switch (code) {
       case "SUCCESS": {
-
         /**
          * Stored the user token in the storage through expo secure store.
          */
@@ -73,7 +108,6 @@ export default function RegisterationScreenForm({
         break;
       }
       case "PASSWORD_DOES_NOT_MATCH": {
-
         /**
          * Displaying message that password does not exist.
          */
@@ -85,7 +119,6 @@ export default function RegisterationScreenForm({
         break;
       }
       case "INVALID_TOKEN": {
-        
         /**
          * Displaying message that the token is not valid
          * and redirecting user to SignUp Screen.
@@ -138,7 +171,7 @@ export default function RegisterationScreenForm({
         type="text"
         marginY="sm"
         onChange={(value) => {
-          
+          setRestaurantName(value);
         }}
       />
 
@@ -147,7 +180,7 @@ export default function RegisterationScreenForm({
         type="text"
         marginY="sm"
         onChange={(value) => {
-          
+          setRestaurantAddress(value);
         }}
       />
 
@@ -156,7 +189,7 @@ export default function RegisterationScreenForm({
         type="text"
         marginY="sm"
         onChange={(value) => {
-          
+          setRestaurantDescription(value);
         }}
       />
       <BorderInputField
@@ -164,6 +197,7 @@ export default function RegisterationScreenForm({
         type="numeric"
         marginY="sm"
         onChange={(value) => {
+          setMinPrepTime(Number(value));
         }}
       />
       <BorderInputField
@@ -171,11 +205,20 @@ export default function RegisterationScreenForm({
         type="numeric"
         marginY="sm"
         onChange={(value) => {
+          setMaxPrepTime(Number(value));
         }}
       />
-      <XTagSelector title="Restaurant Tags" getTags={(tags)=>console.log(tags)} tags={RESTAURANT_TAGS}/>
-      <XTagSelector title="Food Tags" getTags={(tags)=>console.log(tags)} tags={FOOD_TAGS}/>
-      <XImagePicker getImage={(images:Array<string>)=>{console.log(images)}}/>
+      <XTagSelector
+        title="Restaurant Tags"
+        getTags={(tags) => setRestaurantTags(tags)}
+        tags={RESTAURANT_TAGS}
+      />
+      <XTagSelector
+        title="Food Tags"
+        getTags={(tags) => setFoodTags(tags)}
+        tags={FOOD_TAGS}
+      />
+      <XImagePicker getImage={(images) => setImagesArray(images)} />
 
       {/* Dark Continue Button to submit all above fields Data */}
       <XButton

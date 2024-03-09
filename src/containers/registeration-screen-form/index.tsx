@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import React from "react";
 import BorderInputField from "@components/border-input-field";
 import XButton from "@components/x-button";
@@ -8,6 +8,10 @@ import { RootStackParamList } from "@types";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import storeData from "utils/storeData";
 import submitUserData from "utils/submitUserData";
+import XImagePicker from "@components/x-image-picker";
+import XTagSelector from "@components/x-tags-selector";
+import RESTAURANT_TAGS from "constants/RESTAURANT_TAGS";
+import FOOD_TAGS from "constants/FOOD_TAGS";
 
 /**
  * This component provide a form with three input fields name, password
@@ -98,7 +102,7 @@ export default function RegisterationScreenForm({
   };
 
   return (
-    <View className="flex-co space-y-2">
+    <ScrollView className="flex-co space-y-2">
       {/* Name Input Field */}
       <BorderInputField
         placeholder={`What's your name ?`}
@@ -129,6 +133,50 @@ export default function RegisterationScreenForm({
         }}
       />
 
+      <BorderInputField
+        placeholder={`Restaurant Name`}
+        type="text"
+        marginY="sm"
+        onChange={(value) => {
+          
+        }}
+      />
+
+      <BorderInputField
+        placeholder={`Restaurant Address`}
+        type="text"
+        marginY="sm"
+        onChange={(value) => {
+          
+        }}
+      />
+
+      <BorderInputField
+        placeholder={`Restaurant Description`}
+        type="text"
+        marginY="sm"
+        onChange={(value) => {
+          
+        }}
+      />
+      <BorderInputField
+        placeholder={`Minimum Preparation time (in munutes)`}
+        type="numeric"
+        marginY="sm"
+        onChange={(value) => {
+        }}
+      />
+      <BorderInputField
+        placeholder={`Maximum Preparation time (in minutes)`}
+        type="numeric"
+        marginY="sm"
+        onChange={(value) => {
+        }}
+      />
+      <XTagSelector title="Restaurant Tags" getTags={(tags)=>console.log(tags)} tags={RESTAURANT_TAGS}/>
+      <XTagSelector title="Food Tags" getTags={(tags)=>console.log(tags)} tags={FOOD_TAGS}/>
+      <XImagePicker getImage={(images:Array<string>)=>{console.log(images)}}/>
+
       {/* Dark Continue Button to submit all above fields Data */}
       <XButton
         title="Continue"
@@ -136,6 +184,6 @@ export default function RegisterationScreenForm({
         type="dark"
         onPress={handleFormData}
       />
-    </View>
+    </ScrollView>
   );
 }

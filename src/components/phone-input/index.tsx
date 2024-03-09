@@ -59,7 +59,7 @@ export default function PhoneInput({
   return (
     <View
       className={classnames(
-        "flex-row border border-color3 px-4 py-5 my-4 rounded-2xl",
+        "flex-row border border-color3 px-4 py-6 my-4 rounded-2xl",
         {
           /**
            * Vertical Margins.
@@ -89,6 +89,7 @@ export default function PhoneInput({
             title="Request OTP"
             onPress={handleRequestOtp}
             width="two-fifth"
+            textSize="xs"
           />
         )
       }

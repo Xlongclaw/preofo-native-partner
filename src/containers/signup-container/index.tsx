@@ -136,12 +136,13 @@ export default function SignUpContainer() {
   return (
     <View className="px-4 h-screen flex-col mt-32">
       <BulletHeading
-        subtitle="The incredible service that we provide."
+        subtitle="PARTNER"
         appName="Preofo"
       />
 
       {/* Basically an input Field to get phone number from the user with a request OTP button */}
       <PhoneInput
+      marginY="md"
         onChange={(value) => {
           setPhoneNumber(value);
         }}
@@ -164,7 +165,7 @@ export default function SignUpContainer() {
 
       <View className="w-1/2 mt-4">
         {/* Continue Button to submit OTP and register him in the Application */}
-        <XButton onPress={ValidateOtp} title="Continue" type="dark" />
+        <XButton onPress={ValidateOtp} title="Continue" type="dark" textSize="sm"/>
 
         {/* A button that takes user to the signIn page */}
         <XButton
@@ -172,6 +173,7 @@ export default function SignUpContainer() {
           title="Existing User ? Login"
           type="transparent"
           marginY="md"
+          textSize="sm"
         />
       </View>
     </View>

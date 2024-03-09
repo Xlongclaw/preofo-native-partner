@@ -5,7 +5,6 @@ import PhoneInput from "@components/phone-input";
 import XButton from "@components/x-button";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import BorderInputField from "@components/border-input-field";
-import useUserData from "hooks/useUserData";
 import { RootStackParamList } from "@types";
 import storeData from "utils/storeData";
 import Toast from "react-native-toast-message";
@@ -80,7 +79,7 @@ export default function SignInContainer() {
   return (
     <View className="px-4 h-screen flex-col mt-32">
       <BulletHeading
-        subtitle="The incredible service that we provide."
+        subtitle="PARTNER"
         appName="Preofo"
       />
 
@@ -90,6 +89,7 @@ export default function SignInContainer() {
           setPhoneNumber(value);
         }}
         type="without-otp-button"
+        marginY="md"
       />
 
       {/* Input Field to take password as input from the user */}
@@ -109,6 +109,7 @@ export default function SignInContainer() {
           type="dark"
           width="half"
           marginY="md"
+          textSize="sm"
         />
         {ActivityIndicatorVisible && (
           <ActivityIndicator className="ml-6" color={"#000"} size={32} />
@@ -121,6 +122,7 @@ export default function SignInContainer() {
         title="New User ? SignUp"
         type="transparent"
         width="half"
+        textSize="sm"
       />
     </View>
   );

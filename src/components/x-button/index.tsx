@@ -13,7 +13,7 @@ type PropType = {
   width?: "half" | "full" | "one-third" | "two-fifth";
   marginY?: "sm" | "md" | "lg" | "none";
   rounded?: "sm" | "md" | "lg" | "xl" | "full" | "none";
-  textSize?: "xs" | "sm" | "md";
+  textSize?: "xs" | "sm" | "md" |'lg';
 };
 
 /**
@@ -73,8 +73,9 @@ export default function XButton({
            * Text Sizes
            */
           "text-xs": textSize === "xs",
-          "text-base": textSize === "sm",
-          "text-lg": textSize === "md",
+          "text-sm": textSize === "sm",
+          "text-md": textSize === "md",
+          "text-lg": textSize === "lg",
         })}
       >
         {children}

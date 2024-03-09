@@ -1,5 +1,5 @@
 import { View, Text, Dimensions } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import XStatusBar from "@components/x-status-bar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "types";
@@ -9,6 +9,7 @@ import OrderContainer from "@containers/order-container";
 import XSwitch from "@components/x-switch";
 import FoodItemContainer from "@containers/food-item-container";
 import RestaurantButtonContainer from "@containers/restaurant-button-container";
+import mutateDataIntoSanity from "sanity/sanity-utils/mutateDataIntoSanity";
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export default function Home({ navigation, route }: Props) {
@@ -16,6 +17,9 @@ export default function Home({ navigation, route }: Props) {
   const [selected, setSelected] = React.useState<"ORDERS" | "RESTAURANT">(
     "ORDERS"
   );
+  useEffect(()=>{
+    // mutateDataIntoSanity()
+  },[])
 
   if (!isLoading)
     return (

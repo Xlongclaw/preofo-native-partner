@@ -80,7 +80,7 @@ export default function PhoneInput({
 
       {
         /**
-         * If prop.type is set to "with-otp-button" and timer is hidden then only the Request Otp Button
+         * If props.type is set to "with-otp-button" and timer is hidden then only the Request Otp Button
          * will be visible.
          */
         !timerVisible && type == "with-otp-button" && (

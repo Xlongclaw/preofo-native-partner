@@ -1,28 +1,29 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-import generateCloudinaryImageUrl from "utils/generateCloudinaryImageUrl";
+
+/**
+ * Prop Type of this React Component.
+ */
+type PropType = {
+  getImage: (imagesArray: Array<string>) => void;
+};
 
 /**
  * This component lets user to add or pick image from their own
- * storage, allowing the code to get access to the images.
+ * storage, allowing the client to get access to the images and upload them
+ * afterwards.
  *
  * @returns a JSX Element that prompts the user to add a group of images.
  */
-export default function XImagePicker({
-  getImage,
-}: {
-  getImage: (
-    imagesArray: Array<string>
-  ) => void;
-}) {
+export default function XImagePicker({ getImage }: PropType) {
   const [images, setImages] = React.useState<Array<string>>([]);
 
   /**
    * This funtion launches image Picker and add the uri of the selected image to
    * images array.
    */
-  const launchImagePicker = async () => {
+  const addImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -30,7 +31,7 @@ export default function XImagePicker({
       quality: 1,
     });
     if (!result.canceled) {
-        setImages([...images, result.assets![0].uri]);
+      setImages([...images, result.assets![0].uri]);
     }
   };
 
@@ -44,6 +45,12 @@ export default function XImagePicker({
     setImages(images.filter((_, index) => index !== i));
   };
 
+  /**
+   * Sending images to the parent through calling
+   * getImage() function passed as props.
+   * 
+   * This runs every time the images array changes. 
+   */
   React.useEffect(() => {
     getImage(images);
   }, [images]);
@@ -54,10 +61,20 @@ export default function XImagePicker({
         Add Restaurant Images
       </Text>
       {images.map((imageUrl, i) => (
+
+        /**
+         * This is an image Container in which an image of images Array
+         * are displayed if any.
+         * 
+         * If there are 5 images in the images Array then 5 such container will be rendered 
+         * with their respective image URIs.
+         */
         <View
           key={imageUrl}
           className="border border-color3 mb-2 p-1 rounded-3xl overflow-hidden"
         >
+
+          {/* This is a delete button for the image. */}
           <TouchableOpacity
             onPress={() => removeImage(i)}
             activeOpacity={0.7}
@@ -68,8 +85,10 @@ export default function XImagePicker({
           <Image className="w-full h-40 rounded-[20px]" src={imageUrl} />
         </View>
       ))}
+
+      {/* This button prompts user to select an image from their storage*/}
       <TouchableOpacity
-        onPress={launchImagePicker}
+        onPress={addImage}
         className="border border-color3 justify-center items-center p-5 rounded-2xl"
       >
         <Text className="font-semibold text-color2 text-xs">+ ADD IMAGE</Text>

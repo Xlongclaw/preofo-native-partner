@@ -6,6 +6,7 @@ import retrieveSecureStoreData from "./retrieveSecureStoreData";
 import passwordValidation from "./passwordValidation";
 import storeData from "./storeData";
 import submitUserData from "./submitUserData";
+import showToast from "./showToast";
 
 export {
   sendOtp,
@@ -16,4 +17,5 @@ export {
   retrieveSecureStoreData,
   storeData,
   submitUserData,
+  showToast
 };

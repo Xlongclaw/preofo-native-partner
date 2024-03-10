@@ -7,7 +7,7 @@ import BulletHeading from "@components/bullet-heading";
 import XOtpField from "@components/x-otp-field";
 import XButton from "@components/x-button";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { sendOtp, validateUser } from "@utils";
+import { sendOtp, showToast, validateUser } from "@utils";
 
 /**
  * This Components renders Application Heading and an
@@ -56,20 +56,27 @@ export default function SignUpContainer() {
      */
     setActivityIndicatorVisible(true);
     const validation = await validateUser(phoneNumber, otp);
+
+    /**
+     * Checking validation.code .
+     * If the code is expired displaying a toast
+     * that otp is expired.
+     */
     if (validation.code == "OTP_EXPIRED")
-      Toast.show({
-        type: "error",
-        text1: "OTP expired. Try again !",
-        topOffset: 60,
-      });
-    else if (validation.code == "SUCCESS") {
+      showToast("error", "OTP expired. Try again !");
+    /**
+     * If validation.code == "SUCCESS"
+     * Navigating the user to registeration screen.
+     */ else if (validation.code == "SUCCESS")
       navigation.navigate("Registeration", { userToken: validation.userToken });
-    } else
-      Toast.show({
-        type: "error",
-        text1: "Invalid OTP !",
-        topOffset: 60,
-      });
+    /**
+     * If the user OTP does not matches with the database OTP
+     * rendering a toast with the smae message.
+     */ else showToast("error", "Invalid OTP!");
+
+    /**
+     * Hiding the Activity indicator after the validation process ends.
+     */
     setActivityIndicatorVisible(false);
   };
 
@@ -91,41 +98,42 @@ export default function SignUpContainer() {
    * invovke a sentOtp function that sends an api request to the server for
    * sending otp to the given Phone Number.
    */
-  const handleRequestOtpButtonPress = async () => {
+  const handleRequestOtpButtonPress = () => {
+
+    /**
+     * Checking if the phone number contains 10 digits.
+     */
     if (phoneNumber.length === 10) {
-      await sendOtp(phoneNumber).then((result)=>{
-        console.log(result);
-        
-        if(result === 'SUCCESS'){
-          Toast.show({
-            type: "success",
-            text1: "OTP sent Successfully",
-            topOffset: 60,
-          });
+
+      /**
+       * Sending Otp to the phone Number and wait the server response
+       */
+      sendOtp(phoneNumber).then((result) => {
+
+        /**
+         * If the result from the server === 'SUCCESS'
+         * Showing Toast that the OTP was sent Successfully.
+         */
+        if (result === "SUCCESS") {
+          showToast("success", "OTP sent successfully!");
           otpFieldRef.current?.focus();
         }
-        else if(result === 'USER_EXISTS'){
-          Toast.show({
-            type: "error",
-            text1: "User already exists",
-            topOffset: 60,
-          });
-        }
-        else{
-          Toast.show({
-            type: "error",
-            text1: "Something Went Wrong",
-            topOffset: 60,
-          });
-        }
-      })
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Enter a valid Phone Number.",
-        topOffset: 60,
+
+
+        /**
+         * If the result from the server === 'USER_EXISTS'
+         * Showing toast for the same.
+         */
+        else if (result === "USER_EXISTS") 
+        showToast('error',"User already exists try login instead")
+        
+        /**
+         * Else Showing toast that something went wrong.
+         */
+        else 
+          showToast('error',"Something went Wrong")
       });
-    }
+    } else showToast("error", "Enter a valid 10 digits phone number");
   };
 
   /**
@@ -135,14 +143,11 @@ export default function SignUpContainer() {
   const navigation: NavigationProp<any> = useNavigation();
   return (
     <View className="px-4 h-screen flex-col mt-32">
-      <BulletHeading
-        subtitle="PARTNER"
-        appName="Preofo"
-      />
+      <BulletHeading subtitle="PARTNER" appName="Preofo" />
 
       {/* Basically an input Field to get phone number from the user with a request OTP button */}
       <PhoneInput
-      marginY="md"
+        marginY="md"
         onChange={(value) => {
           setPhoneNumber(value);
         }}
@@ -165,7 +170,12 @@ export default function SignUpContainer() {
 
       <View className="w-1/2 mt-4">
         {/* Continue Button to submit OTP and register him in the Application */}
-        <XButton onPress={ValidateOtp} title="Continue" type="dark" textSize="sm"/>
+        <XButton
+          onPress={ValidateOtp}
+          title="Continue"
+          type="dark"
+          textSize="sm"
+        />
 
         {/* A button that takes user to the signIn page */}
         <XButton

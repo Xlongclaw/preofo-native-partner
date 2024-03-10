@@ -17,7 +17,7 @@ type PropType ={
 
 /**
  * This Componenet Renders an input field with Custom styles.
- * @returns a JSX Element thaa is a input field.
+ * @returns a JSX Element that is a input field.
  */
 export default function BorderInputField({
   placeholder,

@@ -4,7 +4,9 @@ import React from "react";
 /**
  * Prop Type of this React Component.
  */
-type PropType = {};
+type PropType = {
+  restaurantName:string,
+};
 
 /**
  * This component Renders a Logo that displays the Restaurant Name followed by
@@ -12,10 +14,10 @@ type PropType = {};
  *
  * @returns a JSX.Element that displays the Logo in the Home Screen.
  */
-export default function Logo({}: PropType) {
+export default function Logo({restaurantName}: PropType) {
   return (
     <View>
-      <Text className="font-black text-lg text-color2">Cafe Rogue</Text>
+      <Text className="font-black text-lg text-color2">{restaurantName}</Text>
       <Text className="text-[9px] font-black text-color2/50 tracking-[1px] -mt-[1px]">
         PREOFO
       </Text>

@@ -19,6 +19,7 @@ import {
 } from "cloudinary-react-native";
 import { Cloudinary } from "@cloudinary/url-gen";
 import generateCloudinaryImageUrl from "utils/generateCloudinaryImageUrl";
+import XLoading from "@components/x-loading";
 
 /**
  * This component provide a form with three input fields name, password
@@ -29,8 +30,10 @@ import generateCloudinaryImageUrl from "utils/generateCloudinaryImageUrl";
  */
 export default function RegisterationScreenForm({
   userToken,
+  isDataLoading
 }: {
   userToken: string;
+  isDataLoading:(loading:boolean)=>void
 }) {
   /**
    * State Variables the store the name, password and
@@ -51,6 +54,7 @@ export default function RegisterationScreenForm({
   const [foodTags, setFoodTags] = React.useState<Array<string>>([]);
   const [restaurantTags, setRestaurantTags] = React.useState<Array<string>>([]);
 
+
   /**
    * useNavigation - hook that give access to navigation object and let you navigate
    * in the through the navigation stack.
@@ -59,8 +63,7 @@ export default function RegisterationScreenForm({
   // console.log(userToken);
   
   const handleFormData = async () => {
-
-
+    isDataLoading(true)
 
      const restaurantImages =await Promise.all(imageArray.map( (imageURI) => {
        return generateCloudinaryImageUrl(imageURI)
@@ -132,8 +135,8 @@ export default function RegisterationScreenForm({
         break;
       }
     }
+    isDataLoading(false)
   };
-
   return (
     <ScrollView className="flex-co space-y-2">
       {/* Name Input Field */}

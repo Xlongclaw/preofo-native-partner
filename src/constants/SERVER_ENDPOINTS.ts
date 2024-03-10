@@ -2,7 +2,9 @@ const SERVER_ENDPOINTS = {
   SEND_OTP_GET:"otp/send",
   VALIDATE_OTP_GET:"otp/validate",
   ADD_PARTNER_POST:"partner/add",
-  GET_PARTNER_FROM_TOKEN_GET:'getPartnerFromUserToken',
+  GET_PARTNER_FROM_CREDENTIALS_GET:'partner',
+  GET_PARTNER_FROM_TOKEN_GET:'partner/token',
+  GET_RESTAURANT:'restaurant',
 }
 
 export default SERVER_ENDPOINTS

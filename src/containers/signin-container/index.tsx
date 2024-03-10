@@ -1,5 +1,5 @@
 import { ActivityIndicator, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BulletHeading from "@components/bullet-heading";
 import PhoneInput from "@components/phone-input";
 import XButton from "@components/x-button";
@@ -8,6 +8,8 @@ import BorderInputField from "@components/border-input-field";
 import { RootStackParamList } from "@types";
 import storeData from "utils/storeData";
 import Toast from "react-native-toast-message";
+import { showToast } from "@utils";
+import fetchUserDatafromCredentials from "utils/fetchUserDatafromCredentials";
 
 /**
  * This Components renders Application Heading and an
@@ -16,8 +18,8 @@ import Toast from "react-native-toast-message";
  * @returns a jsx element of sign in form.
  */
 export default function SignInContainer() {
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
 
   /**
    * ActivityIndicaterVisible - state variable to set activityIndicator visible after
@@ -35,53 +37,50 @@ export default function SignInContainer() {
    */
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
 
-  const handleCredentials = () => {
+  /**
+   * This function is called when the continue button is pressed.
+   * It validates the user and provides a token in order to remain authenticated
+   */
+  const handleCredentials = async () => {
     setActivityIndicatorVisible(true);
     if (phoneNumber.length === 10) {
-      fetch(
-        `${process.env.SERVER_ADDRESS}getPartnerFromCredentials?phoneNumber=${phoneNumber}&password=${password}`
-      )
-        .then((res) => res.json())
-        .then(async (data) => {
-          if (data.code === "SUCCESS") {
-            await storeData("userToken", data.userToken);
-            navigation.reset({ routes: [{ name: "AppLoadingScreen" }] });
-          } else if (data.code === "PASSWORD_DOES_NOT_MATCH") {
-            Toast.show({
-              type: "error",
-              text1: "Incorrect Password!",
-              topOffset: 60,
-            });
-          } else if (data.code === "USER_DOES_NOT_EXIST") {
-            Toast.show({
-              type: "error",
-              text1: "User does not exists!",
-              topOffset: 60,
-            });
-          } else {
-            Toast.show({
-              type: "error",
-              text1: "Something Went Wrong.",
-              topOffset: 60,
-            });
-          }
-        });
-    } else {
-      Toast.show({
-        type: "error",
-        text1: "Enter a valid Phone Number.",
-        topOffset: 60,
+      const responseData = await fetchUserDatafromCredentials({
+        phoneNumber,
+        password,
       });
+         
+      if (responseData.code === "SUCCESS") {
+        /**
+         * If responseData === "SUCCESS"
+         * storing the userToken in the local storage for authentication
+         * and then redirecting the user to AppLoadingScreen.
+         */
+        await storeData("userToken", responseData.userToken);
+        navigation.reset({ routes: [{ name: "AppLoadingScreen" }] });
+      } else if (responseData.code === "PASSWORD_DOES_NOT_MATCH") {
+        /**
+         * If responseData === "PASSWORD_DOES_NOT_MATCH"
+         * Showing a toast for the same.
+         */
+        showToast("error", "Incorrect Password.");
+      } else if (responseData.code === "PARTNER_DOES_NOT_EXIST") {
+        /**
+         * If responseData === "USER_DOES_NOT_EXIST"
+         * Showing a toast for the same.
+         */
+        showToast("error", "User does not exist.");
+      } else {
+        showToast('error','Something Went Wrong')
+      }
+    } else {
+      showToast("error","Enter a valid Phone number.")
     }
     setActivityIndicatorVisible(false);
   };
 
   return (
     <View className="px-4 h-screen flex-col mt-32">
-      <BulletHeading
-        subtitle="PARTNER"
-        appName="Preofo"
-      />
+      <BulletHeading subtitle="PARTNER" appName="Preofo" />
 
       {/* Basically an input Field to get phone number from the user */}
       <PhoneInput

@@ -4,6 +4,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@types";
 import XStatusBar from "@components/x-status-bar";
 import RegisterationScreenForm from "@containers/registeration-screen-form";
+import XLoading from "@components/x-loading";
 type NavigationProps = NativeStackScreenProps<
   RootStackParamList,
   "Registeration"
@@ -14,7 +15,7 @@ export default function RegisterationScreen({
   route,
 }: NavigationProps) {
   const [keyboardVisible, setKeyboardVisible] = React.useState(false);
-
+  const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
     Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardVisible(true);
@@ -24,6 +25,7 @@ export default function RegisterationScreen({
     });
   }, []);
 
+  if(!loading)
   return (
     <View
       className={` px-8 h-screen ${
@@ -37,7 +39,8 @@ export default function RegisterationScreen({
           So, What are you doing for your Craving
         </Text>
       </View>
-      <RegisterationScreenForm userToken={route.params.userToken} />
+      <RegisterationScreenForm isDataLoading={(loading)=>setLoading(loading)} userToken={route.params.userToken} />
     </View>
   );
+  return <XLoading/>
 }

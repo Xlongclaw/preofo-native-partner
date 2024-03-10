@@ -19,8 +19,11 @@ const useFetch = (options: {
     })
       .then((response) => response.json())
       .then((responseData) => {
-        if (options.type == "sanity") setData(responseData.result);
-        else setData(responseData);
+        if (options.type === "sanity") setData(responseData.result);
+        else {
+          console.log(responseData);
+          setData(responseData);
+        }
       })
       .catch((err) => setError(err))
       .finally(() => setIsLoading(false));

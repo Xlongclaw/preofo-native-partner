@@ -10,6 +10,8 @@ import XSwitch from "@components/x-switch";
 import FoodItemContainer from "@containers/food-item-container";
 import RestaurantButtonContainer from "@containers/restaurant-button-container";
 import mutateDataIntoSanity from "sanity/sanity-utils/mutateDataIntoSanity";
+import XLoading from "@components/x-loading";
+import RestaurantContainer from "@containers/restaurant-container";
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export default function Home({ navigation, route }: Props) {
@@ -21,12 +23,13 @@ export default function Home({ navigation, route }: Props) {
     // mutateDataIntoSanity()
   },[])
 
+
   if (!isLoading)
     return (
       <View className="px-4 pt-4 h-[100vh]">
         <XStatusBar />
         <View className="flex-row items-center justify-between px-4">
-          <Logo />
+          <Logo restaurantName={userData.name} />
           <View>
             <XSwitch
               selected={(value) => {
@@ -38,12 +41,9 @@ export default function Home({ navigation, route }: Props) {
         {selected === "ORDERS" ? (
           <OrderContainer />
         ) : (
-          <>
-            <RestaurantButtonContainer />
-            <FoodItemContainer />
-          </>
+          <RestaurantContainer restaurantId={userData.restaurantId}/>
         )}
       </View>
     );
-  return <Text>LOADING DATA</Text>;
+  return <XLoading/>;
 }

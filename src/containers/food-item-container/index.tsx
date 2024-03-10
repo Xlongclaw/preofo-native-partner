@@ -15,25 +15,22 @@ export default function FoodItemContainer({
   restaurantId: string;
 }) {
 
-  /**
-   * Fetching Restaurant Data through Sanity.
-   */
-  const { data, isLoading }: { data: restaurantDataType; isLoading: boolean } =
-    useFetch({
-      method: "POST",
-      type: "sanity",
-      url: getRestaurantById("1423a317-7449-4b4b-9c90-46c1e00fd346"),
-    });
+  const [categories,setCategories] = React.useState<Array<string>>()
 
-  if (!isLoading)
+  React.useEffect(()=>{
+    fetchRestaurantById(restaurantId).then((res)=>{
+      setCategories(res.data.foodCategoryIds)
+    })
+  },[])
+
+  if (categories)
     return (
       <ScrollView showsVerticalScrollIndicator={false} className="h-screen">
-        {data.foodCategories.map((categoryData, i) => (
+        {categories.map((categoryID, i) => (
           <FoodCategoryList
             key={`CATEGORY_${i}`}
-            dishes={categoryData.dishes}
+            _id={categoryID}
             expanded={!i}
-            category={categoryData.category}
           />
         ))}
       </ScrollView>

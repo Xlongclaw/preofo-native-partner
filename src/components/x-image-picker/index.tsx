@@ -7,6 +7,7 @@ import * as ImagePicker from "expo-image-picker";
  */
 type PropType = {
   getImage: (imagesArray: Array<string>) => void;
+  title:string
 };
 
 /**
@@ -16,7 +17,7 @@ type PropType = {
  *
  * @returns a JSX Element that prompts the user to add a group of images.
  */
-export default function XImagePicker({ getImage }: PropType) {
+export default function XImagePicker({ getImage,title }: PropType) {
   const [images, setImages] = React.useState<Array<string>>([]);
 
   /**
@@ -58,7 +59,7 @@ export default function XImagePicker({ getImage }: PropType) {
   return (
     <View className="my-6">
       <Text className="font-semibold text-center text-color2/70 mb-2">
-        Add Restaurant Images
+        {title}
       </Text>
       {images.map((imageUrl, i) => (
 

@@ -8,6 +8,8 @@ import SignUp from "@screens/authentication/sign-up";
 import RegisterationScreen from "@screens/registeration-screen";
 import { RootStackParamList } from "types";
 import AppLoadingScreen from "@screens/app-loading-screen";
+import AddCategoryScreen from "@screens/add-category-screen";
+import AddDishScreen from "@screens/add-dish-screen";
 
 /**
  * Calling the stack navigator in root stack from react-navigation
@@ -30,6 +32,8 @@ export default function Navigation() {
         <RootStack.Screen name="SignUp" component={SignUp} />
         <RootStack.Screen name="Registeration" component={RegisterationScreen} />
         <RootStack.Screen name="AppLoadingScreen" component={AppLoadingScreen} />
+        <RootStack.Screen name="AddCategoryScreen" component={AddCategoryScreen} />
+        <RootStack.Screen name="AddDishScreen" component={AddDishScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

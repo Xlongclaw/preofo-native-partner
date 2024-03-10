@@ -32,7 +32,7 @@ export default function RestaurantContainer({
   if(!isLoading)
   return (
     <View>
-      <RestaurantButtonContainer />
+      <RestaurantButtonContainer restaurantId={restaurantId} />
       <FoodItemContainer restaurantId={restaurantId} />
     </View>
   );

@@ -5,11 +5,11 @@ import deleteSecureStoreData from "utils/deleteSecureStoreData";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "@types";
 
-export default function RestaurantButtonContainer() {
+export default function RestaurantButtonContainer({restaurantId}:{restaurantId:string}) {
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   return (
     <View className="pt-3 pb-3 mt-2 mx-4 flex-row border-b border-color3/40 justify-between">
-      <TouchableOpacity className="bg-color3/60 py-3 px-5 rounded-full items-center justify-center">
+      <TouchableOpacity onPress={()=>navigation.navigate('AddCategoryScreen',{restaurantId:restaurantId})} className="bg-color3/60 py-3 px-5 rounded-full items-center justify-center">
         <Text className="text-xs font-bold">+ Add Category</Text>
       </TouchableOpacity>
 

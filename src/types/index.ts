@@ -3,7 +3,9 @@ type RootStackParamList = {
   AppLoadingScreen: undefined;
   Registeration: { userToken:string };
   SignUp:undefined;
-  SignIn:undefined
+  SignIn:undefined;
+  AddCategoryScreen:{restaurantId:string};
+  AddDishScreen:{categotyID:string}
 };
 
 type DishType = {

@@ -5,6 +5,8 @@ const SERVER_ENDPOINTS = {
   GET_PARTNER_FROM_CREDENTIALS_GET:'partner',
   GET_PARTNER_FROM_TOKEN_GET:'partner/token',
   GET_RESTAURANT:'restaurant',
+  GET_CATEGORY:'restaurant/category',
+  POST_CATEGORY:'restaurant/category',
 }
 
 export default SERVER_ENDPOINTS

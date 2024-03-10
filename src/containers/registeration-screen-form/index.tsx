@@ -221,7 +221,7 @@ export default function RegisterationScreenForm({
         getTags={(tags) => setFoodTags(tags)}
         tags={FOOD_TAGS}
       />
-      <XImagePicker getImage={(images) => setImagesArray(images)} />
+      <XImagePicker title="Add Restaurant Images" getImage={(images) => setImagesArray(images)} />
 
       {/* Dark Continue Button to submit all above fields Data */}
       <XButton

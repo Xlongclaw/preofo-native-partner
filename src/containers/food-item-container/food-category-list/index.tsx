@@ -6,8 +6,6 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import fetchCategoryById from "utils/fetchCategoryById";
 
 
-const dishes = [{},{}]
-
 export default function FoodCategoryList({expanded,categoryData,restaurantId}:{expanded:boolean,categoryData:any,restaurantId:string}) {
   const [expand,setExpand] = useState<boolean>(expanded)
 
@@ -52,9 +50,8 @@ export default function FoodCategoryList({expanded,categoryData,restaurantId}:{e
 
         </View>
       </View>
-      {expand && dishes.map((foodItem, i) => (
-        <></>
-        // <FoodItemWrapper foodItem={foodItem} key={`FOOD_ITEM_${i}`} />
+      {expand && categoryData.dishIds.map((dishId:string, i:number) => (
+        <FoodItemWrapper dishId={dishId} key={`FOOD_ITEM_${i}`} />
       ))}
     </View>
   );

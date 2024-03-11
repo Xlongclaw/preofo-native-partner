@@ -1,9 +1,37 @@
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { DishType, foodItemDataType } from "@types";
 import ItemOptions from "./item-options";
+import fetchDishById from "utils/fetchDishById";
+import FoodItemWrapperSkeleton from "../food-item-wrapper-skeleton";
 
-export default function FoodItemWrapper({ foodItem }: { foodItem: DishType }) {
+export default function FoodItemWrapper({ dishId }: { dishId:string }) {
+
+  const ws = new WebSocket('wss://server-test-dkjb.onrender.com/9793059277/Q');
+  ws.onopen = () =>{
+    ws.addEventListener('message',(event)=>{
+      // if(event.data){
+      //   console.log(JSON.parse(event.data)._id);
+      // }
+      
+      if(JSON.parse(event.data)._id===dishId){
+        setFoodItem(null)
+        fetchDishById(dishId).then((res)=>{
+          setFoodItem(res.dish)
+        })
+      }
+    })
+
+  }
+  const [foodItem,setFoodItem] = useState<any>()
+
+  React.useEffect(()=>{
+    fetchDishById(dishId).then((res)=>{
+      setFoodItem(res.dish)
+    })
+  },[])
+
+if(foodItem)
   return (
     <View className="border relative w-full rounded-[40px] flex-row justify-between items-center border-color3 p-2 my-3">
       <View className="max-w-[50%] pl-4 space-y-1">
@@ -44,7 +72,7 @@ export default function FoodItemWrapper({ foodItem }: { foodItem: DishType }) {
       <View>
         <Image
           className="w-[40vw] h-[150px] rounded-[35px]"
-          src={foodItem.image}
+          src={foodItem.image.url}
           />
       </View>
         <View className="w-full absolute flex-row justify-center items-center pr-16 bottom-[-8%] ">
@@ -52,4 +80,5 @@ export default function FoodItemWrapper({ foodItem }: { foodItem: DishType }) {
       </View>
     </View>
   );
+  return <FoodItemWrapperSkeleton/>
 }

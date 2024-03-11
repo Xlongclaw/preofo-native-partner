@@ -11,29 +11,21 @@ import SERVER_ENDPOINTS from "constants/SERVER_ENDPOINTS";
 
 export default function FoodItemContainer({
   restaurantId,
+  categories,
 }: {
   restaurantId: string;
+  categories: Array<{ name: string; _id: string }>;
 }) {
-
-  const [categories,setCategories] = React.useState<Array<string>>()
-
-  React.useEffect(()=>{
-    fetchRestaurantById(restaurantId).then((res)=>{
-      setCategories(res.data.foodCategoryIds)
-    })
-  },[])
-
-  if (categories)
-    return (
-      <ScrollView showsVerticalScrollIndicator={false} className="h-screen">
-        {categories.map((categoryID, i) => (
-          <FoodCategoryList
-            key={`CATEGORY_${i}`}
-            _id={categoryID}
-            expanded={!i}
-          />
-        ))}
-      </ScrollView>
-    );
-  return <FoodItemContainerSkeleton />;
+  return (
+    <ScrollView showsVerticalScrollIndicator={false} className="h-screen">
+      {categories.map((category, i) => (
+        <FoodCategoryList
+        restaurantId={restaurantId}
+          categoryData={category}
+          key={`CATEGORY_${i}`}
+          expanded={!i}
+        />
+      ))}
+    </ScrollView>
+  );
 }

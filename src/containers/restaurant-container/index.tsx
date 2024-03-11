@@ -33,7 +33,7 @@ export default function RestaurantContainer({
   return (
     <View>
       <RestaurantButtonContainer restaurantId={restaurantId} />
-      <FoodItemContainer restaurantId={restaurantId} />
+      <FoodItemContainer restaurantId={restaurantId} categories={restaurant.foodCategories} />
     </View>
   );
   return <XLoading/>

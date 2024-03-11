@@ -17,7 +17,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 export default function Home({ navigation, route }: Props) {
   const { userData, isLoading } = useUserData();
   const [selected, setSelected] = React.useState<"ORDERS" | "RESTAURANT">(
-    "ORDERS"
+    "RESTAURANT"
   );
   useEffect(()=>{
     // mutateDataIntoSanity()

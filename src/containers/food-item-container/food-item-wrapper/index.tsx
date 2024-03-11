@@ -7,22 +7,7 @@ import FoodItemWrapperSkeleton from "../food-item-wrapper-skeleton";
 
 export default function FoodItemWrapper({ dishId }: { dishId:string }) {
 
-  const ws = new WebSocket('wss://server-test-dkjb.onrender.com/9793059277/Q');
-  ws.onopen = () =>{
-    ws.addEventListener('message',(event)=>{
-      // if(event.data){
-      //   console.log(JSON.parse(event.data)._id);
-      // }
-      
-      if(JSON.parse(event.data)._id===dishId){
-        setFoodItem(null)
-        fetchDishById(dishId).then((res)=>{
-          setFoodItem(res.dish)
-        })
-      }
-    })
 
-  }
   const [foodItem,setFoodItem] = useState<any>()
 
   React.useEffect(()=>{

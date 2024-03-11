@@ -36,7 +36,7 @@ export default function AddDishScreen({ navigation, route }: Props) {
         price,
       },
     });
-    if(res.code === "SUCCESS") navigation.navigate('Home')
+    if(res.code === "SUCCESS") navigation.reset({routes:[{ name: "Home" }]})
     else showToast('error',"Something went wrong")
   };
 

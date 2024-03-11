@@ -15,7 +15,7 @@ export default function AddCategoryScreen({navigation,route}:Props) {
 
   const handleSubmit = async ()=>{
     const res = await addCategory({categoryName,restaurantId:route.params.restaurantId})
-    if(res.code==="SUCCESS") navigation.navigate('Home')
+    if(res.code==="SUCCESS") navigation.reset({routes:[{ name: "Home" }]})
     else showToast("error","Something went wrong")
   }
   return (

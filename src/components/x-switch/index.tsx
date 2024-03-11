@@ -3,13 +3,13 @@ import React from "react";
 
 export default function XSwitch({selected}:{selected:(selected:"ORDERS" | "RESTAURANT")=>void}) {
   const [switchPosition, setSwitchPosition] = React.useState<"ORDERS" | "RESTAURANT">(
-    "ORDERS"
+    "RESTAURANT"
   );
   const dotAnim = React.useRef(new Animated.Value(0)).current;
   const textAnim = React.useRef(new Animated.Value(0)).current;
 
   const hanldePress = () => {
-    if (switchPosition === "ORDERS") {
+    if (switchPosition === "RESTAURANT") {
       Animated.timing(dotAnim, {
         toValue: 100,
         duration: 300,
@@ -22,8 +22,8 @@ export default function XSwitch({selected}:{selected:(selected:"ORDERS" | "RESTA
         easing:Easing.ease,
         useNativeDriver: true,
       }).start();
-      selected('RESTAURANT')
-      setSwitchPosition('RESTAURANT')
+      selected('ORDERS')
+      setSwitchPosition('ORDERS')
     } else {
       Animated.timing(dotAnim, {
         toValue: 0,
@@ -37,8 +37,8 @@ export default function XSwitch({selected}:{selected:(selected:"ORDERS" | "RESTA
         easing:Easing.ease,
         useNativeDriver: true,
       }).start();
-      setSwitchPosition('ORDERS')
-      selected('ORDERS')
+      setSwitchPosition('RESTAURANT')
+      selected('RESTAURANT')
     }
   };
 

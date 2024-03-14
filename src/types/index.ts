@@ -6,7 +6,7 @@ type RootStackParamList = {
   SignIn:undefined;
   AddCategoryScreen:{restaurantId:string};
   AddDishScreen:{categoryId:string,restaurantId:string},
-  EditDishScreen:undefined
+  EditDishScreen:{dishId:string}
 };
 
 type DishType = {

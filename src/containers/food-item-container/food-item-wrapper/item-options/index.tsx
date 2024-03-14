@@ -22,7 +22,7 @@ export default function ItemOptions({
       className={` text-xs flex-row items-center justify-center mt-1 font-bold`}
     >
       <AvailableRadioButton initial={true} onPress={(value) => {}} />
-      <EditButton onPress={() => navigate("EditDishScreen")} />
+      <EditButton onPress={() => navigate("EditDishScreen",{dishId})} />
       <DeleteButton
         onPress={() => {
           deleteDish({ categoryId, dishId, restaurantId });

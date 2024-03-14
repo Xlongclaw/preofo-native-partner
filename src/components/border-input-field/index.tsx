@@ -10,6 +10,7 @@ type PropType ={
   type?: InputModeOptions;
   onChange: (value: string) => void;
   onFocus?: () => void;
+  value?:string,
   onBlur?: () => void;
   marginY?: "sm"|"md"|"lg";
   marginX?: "sm"|"md"|"lg";
@@ -26,7 +27,8 @@ export default function BorderInputField({
   onFocus,
   onBlur,
   marginX,
-  marginY
+  marginY,
+  value
 }: PropType) {
   return (
     <View className={classnames("flex-row border border-color3 px-4 rounded-2xl ",{
@@ -52,6 +54,7 @@ export default function BorderInputField({
         onChangeText={(value) => onChange(value)}
         onFocus={onFocus}
         onBlur={onBlur}
+        value={value}
       />
     </View>
   );

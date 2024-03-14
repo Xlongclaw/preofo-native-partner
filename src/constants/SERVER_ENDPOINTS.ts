@@ -8,6 +8,7 @@ const SERVER_ENDPOINTS = {
   GET_CATEGORY:'restaurant/category',
   POST_CATEGORY:'restaurant/category',
   POST_DISH:'restaurant/dish',
+  EDIT_DISH:'restaurant/dish',
   GET_DISH:'restaurant/dish',
   DELETE_DISH:'restaurant/dish',
 }

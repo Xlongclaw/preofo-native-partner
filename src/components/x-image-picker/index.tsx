@@ -7,7 +7,9 @@ import * as ImagePicker from "expo-image-picker";
  */
 type PropType = {
   getImage: (imagesArray: Array<string>) => void;
-  title:string
+  title: string;
+  initialImages?: Array<string>;
+  maximum?: number;
 };
 
 /**
@@ -17,8 +19,17 @@ type PropType = {
  *
  * @returns a JSX Element that prompts the user to add a group of images.
  */
-export default function XImagePicker({ getImage,title }: PropType) {
-  const [images, setImages] = React.useState<Array<string>>([]);
+export default function XImagePicker({
+  getImage,
+  title,
+  initialImages = [],
+  maximum = 3,
+}: PropType) {
+  const [images, setImages] = React.useState<Array<string>>(initialImages);
+
+  // React.useEffect(() => {
+  //   console.log(images);
+  // }, [images]);
 
   /**
    * This funtion launches image Picker and add the uri of the selected image to
@@ -49,8 +60,8 @@ export default function XImagePicker({ getImage,title }: PropType) {
   /**
    * Sending images to the parent through calling
    * getImage() function passed as props.
-   * 
-   * This runs every time the images array changes. 
+   *
+   * This runs every time the images array changes.
    */
   React.useEffect(() => {
     getImage(images);
@@ -62,19 +73,17 @@ export default function XImagePicker({ getImage,title }: PropType) {
         {title}
       </Text>
       {images.map((imageUrl, i) => (
-
         /**
          * This is an image Container in which an image of images Array
          * are displayed if any.
-         * 
-         * If there are 5 images in the images Array then 5 such container will be rendered 
+         *
+         * If there are 5 images in the images Array then 5 such container will be rendered
          * with their respective image URIs.
          */
         <View
           key={imageUrl}
           className="border border-color3 mb-2 p-1 rounded-3xl overflow-hidden"
         >
-
           {/* This is a delete button for the image. */}
           <TouchableOpacity
             onPress={() => removeImage(i)}
@@ -88,12 +97,14 @@ export default function XImagePicker({ getImage,title }: PropType) {
       ))}
 
       {/* This button prompts user to select an image from their storage*/}
-      <TouchableOpacity
-        onPress={addImage}
-        className="border border-color3 justify-center items-center p-5 rounded-2xl"
-      >
-        <Text className="font-semibold text-color2 text-xs">+ ADD IMAGE</Text>
-      </TouchableOpacity>
+      {images.length < maximum && (
+        <TouchableOpacity
+          onPress={addImage}
+          className="border border-color3 justify-center items-center p-5 rounded-2xl"
+        >
+          <Text className="font-semibold text-color2 text-xs">+ ADD IMAGE</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

@@ -59,8 +59,6 @@ if(foodItem)
           className="w-[40vw] h-[150px] rounded-[35px]"
           src={foodItem.image.url}
           />
-      </View>
-        <View className="w-full absolute flex-row justify-center items-center pr-16 bottom-[-8%] ">
           <ItemOptions/>
       </View>
     </View>

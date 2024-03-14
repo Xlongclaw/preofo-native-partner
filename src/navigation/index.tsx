@@ -10,6 +10,7 @@ import { RootStackParamList } from "types";
 import AppLoadingScreen from "@screens/app-loading-screen";
 import AddCategoryScreen from "@screens/add-category-screen";
 import AddDishScreen from "@screens/add-dish-screen";
+import EditDishScreen from "@screens/edit-dish-screen";
 
 /**
  * Calling the stack navigator in root stack from react-navigation
@@ -34,6 +35,7 @@ export default function Navigation() {
         <RootStack.Screen name="AppLoadingScreen" component={AppLoadingScreen} />
         <RootStack.Screen name="AddCategoryScreen" component={AddCategoryScreen} />
         <RootStack.Screen name="AddDishScreen" component={AddDishScreen} />
+        <RootStack.Screen name="EditDishScreen" component={EditDishScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

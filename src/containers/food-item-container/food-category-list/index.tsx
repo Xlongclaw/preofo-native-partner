@@ -10,16 +10,6 @@ export default function FoodCategoryList({expanded,categoryData,restaurantId}:{e
   const [expand,setExpand] = useState<boolean>(expanded)
 
 
-  // const [categoryData,setCategoryData] = React.useState<any>()
-
-  // React.useEffect(()=>{
-  // fetchCategoryById(_id).then((res)=>{
-  //   setCategoryData(res.foodCategory)
-  // })
-  // },[])
-  
-
-
 
   const navigation: NavigationProp<RootStackParamList> = useNavigation();
   return (
@@ -51,7 +41,7 @@ export default function FoodCategoryList({expanded,categoryData,restaurantId}:{e
         </View>
       </View>
       {expand && categoryData.dishIds.map((dishId:string, i:number) => (
-        <FoodItemWrapper dishId={dishId} key={`FOOD_ITEM_${i}`} />
+        <FoodItemWrapper restaurantId={restaurantId} categoryId={categoryData._id} dishId={dishId} key={`FOOD_ITEM_${i}`} />
       ))}
     </View>
   );

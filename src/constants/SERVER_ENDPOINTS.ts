@@ -9,6 +9,7 @@ const SERVER_ENDPOINTS = {
   POST_CATEGORY:'restaurant/category',
   POST_DISH:'restaurant/dish',
   GET_DISH:'restaurant/dish',
+  DELETE_DISH:'restaurant/dish',
 }
 
 export default SERVER_ENDPOINTS

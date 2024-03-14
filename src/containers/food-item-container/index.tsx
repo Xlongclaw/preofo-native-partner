@@ -16,6 +16,7 @@ export default function FoodItemContainer({
   restaurantId: string;
   categories: Array<{ name: string; _id: string }>;
 }) {
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} className="h-screen">
       {categories.map((category, i) => (
